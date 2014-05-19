@@ -8,25 +8,25 @@ E<> User.After_SAS
 /*
 
 */
-not(User.SAS_Opened) --> not(User.After_SAS)
+control: A[] (User.After_SAS imply gateConf == 2)
 
 /*
 Cannot be in the SAS_Opened state if the door config is not 2.
-Note that if we add the condition gateConf == 2, the query still holds. Indeed, even after havin opened the second door, the user does not have to leave through it.
+Note that if we add the condition gateConf == 2, the query still holds. Indeed, even after having opened the second door, the user does not have to leave through it.
 */
-control: A[ not(User.SAS_Opened) U (gateConf == 1 or gateConf == 0) ]
+control: A[ not(User.After_SAS) U (gateConf == 1 or gateConf == 0)]
 
 /*
-Sort dans le futur.
+
 */
-//NO_QUERY
+control: A[] (User.In_SAS imply A<> User.Before_SAS)
+
+/*
+Sort dans le futur. C'est-\u00e0-dire que s'il est dans In_SAS, il finira par retourner dans Before_SAS.
+*/
+User.In_SAS --> User.Before_SAS
 
 /*
 
 */
 A[] not deadlock
-
-/*
-Atteind After_SAS que si la carte a \u00e9t\u00e9 valid\u00e9e au moins une fois.
-*/
-control: A[ not(User.After_SAS) W User.SAS_Opened  ]
