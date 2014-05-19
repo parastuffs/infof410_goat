@@ -17,14 +17,24 @@ Note that if we add the condition gateConf == 2, the query still holds. Indeed, 
 control: A[ not(User.After_SAS) U (gateConf == 1 or gateConf == 0)]
 
 /*
-
-*/
-User.In_SAS imply (A<> User.Before_SAS)
-
-/*
 Sort dans le futur. C'est-\u00e0-dire que s'il est dans In_SAS, il finira par retourner dans Before_SAS.
 */
 User.In_SAS --> (User.Before_SAS or User.After_SAS)
+
+/*
+
+*/
+control: A[] (User.In_SAS imply (User.Before_SAS or User.After_SAS))
+
+/*
+
+*/
+User.Before_SAS --> User.In_SAS
+
+/*
+Pas \u00e0 deux dans le sas.
+*/
+A[] User.In_SAS imply not(User2.In_SAS)
 
 /*
 
