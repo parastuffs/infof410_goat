@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>// Place global declarations here.
+chan infra1;
+chan infra2;
+chan cardIn;
+chan eject;
+
+clock timeInSas;
+
+const int SAS_TIMER = 10;
+
+int doorConf = 1;//Binary: g2g1 =&gt; 01 = gate 2 closed &amp;&amp; gate 1 open, 00 both closed, 10 = gate 2 open &amp;&amp; gate 1 closed.
+</declaration><template><name x="8" y="8">User</name><declaration>// Place local declarations here.
+
+clock x;</declaration><location id="id0" x="-728" y="112"><name x="-738" y="82">FAIL</name></location><location id="id1" x="-608" y="-72"></location><location id="id2" x="-792" y="-80"><name x="-810" y="-110">in_sas</name></location><location id="id3" x="-968" y="-80"></location><init ref="id3"/><transition action=""><source ref="id2"/><target ref="id0"/><label kind="guard" x="-792" y="24">timeInSas &gt; SAS_TIMER</label><nail x="-808" y="64"/></transition><transition controllable="false" action=""><source ref="id2"/><target ref="id3"/><label kind="synchronisation" x="-920" y="40">eject?</label><label kind="comments">Ejects the user.</label><nail x="-832" y="24"/><nail x="-928" y="32"/><nail x="-992" y="-16"/></transition><transition controllable="false" action=""><source ref="id2"/><target ref="id1"/><label kind="synchronisation" x="-720" y="-120">infra2!</label><nail x="-696" y="-96"/></transition><transition controllable="false" action=""><source ref="id2"/><target ref="id3"/><label kind="synchronisation" x="-920" y="-56">infra1!</label><nail x="-904" y="-64"/></transition><transition controllable="false" action=""><source ref="id2"/><target ref="id2"/><label kind="synchronisation" x="-816" y="-176">cardIn!</label><nail x="-832" y="-104"/><nail x="-840" y="-152"/><nail x="-736" y="-152"/><nail x="-744" y="-104"/></transition><transition controllable="false" action=""><source ref="id3"/><target ref="id2"/><label kind="synchronisation" x="-928" y="-128">infra1!</label><nail x="-904" y="-104"/></transition></template><template><name>Sas</name><declaration>clock x;</declaration><location id="id4" x="-608" y="56"><urgent/></location><location id="id5" x="-448" y="-48"><label kind="invariant" x="-456" y="-24">timeInSas &lt;= SAS_TIMER</label><label kind="comments">The decision to eject the user comes from the SAS by sending a sync signal.</label></location><location id="id6" x="-608" y="-48"><name x="-618" y="-78">infra1_trig</name><urgent/></location><location id="id7" x="-768" y="-48"></location><init ref="id7"/><transition action=""><source ref="id4"/><target ref="id7"/><label kind="synchronisation" x="-744" y="56">eject!</label><nail x="-728" y="48"/></transition><transition action=""><source ref="id5"/><target ref="id4"/><label kind="guard" x="-520" y="48">timeInSas == SAS_TIMER</label><label kind="assignment" x="-496" y="72">doorConf = 1</label><nail x="-488" y="32"/></transition><transition action=""><source ref="id6"/><target ref="id5"/><label kind="assignment" x="-584" y="-104">doorConf = 0, timeInSas = 0</label><nail x="-536" y="-72"/></transition><transition action=""><source ref="id7"/><target ref="id6"/><label kind="synchronisation" x="-712" y="-96">infra1?</label><nail x="-688" y="-72"/></transition></template><system>// Place template instantiations here.
+
+// List one or more processes to be composed into a system.
+system User, Sas;</system></nta>
