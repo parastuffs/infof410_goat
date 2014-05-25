@@ -13,6 +13,14 @@ is not compelled to leave the SAS through it just yet. In this case,
 we better have a boolean variable activated by the controller allowing
 the user to get the frack out if he wishes.
 
+We want the environnement to be able to loose. So
+> E<> User.FAIL
+should be satisfied. But, with the cooperation of the controller, we
+want
+> control: A[] not User.FAIL
+to be satisfied as well, that is with the help of the controller, we
+cannot loose the game.
+
 UppAal Tiga tips
 ----------------
 
