@@ -29,3 +29,5 @@ UppAal Tiga tips
 * You can make several updates at the same time by seperating them with
 commas.
 * You can use logical operators in guards: || and &&.
+* We cannot take a transition with a sync signal if the corresponding
+node is not in a state waiting for it.
