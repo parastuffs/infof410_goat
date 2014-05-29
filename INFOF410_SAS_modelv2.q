@@ -3,7 +3,7 @@
 /*
 
 */
-E<> (User.in_sas and User2.in_sas)
+A[] not(User.in_sas and User2.in_sas)
 
 /*
 If User is in the sas, User2 can't be.
