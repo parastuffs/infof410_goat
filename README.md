@@ -37,6 +37,11 @@ node is not in a state waiting for it.~~ So not true.
 
 Current State
 -------------
-![User]()
 
-![SAS]()
+User:
+
+![User](https://raw.githubusercontent.com/parastuffs/infof410_goat/master/User_model.png)
+
+SAS:
+
+![SAS](https://raw.githubusercontent.com/parastuffs/infof410_goat/master/SAS_model.png)

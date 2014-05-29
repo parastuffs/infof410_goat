@@ -30,4 +30,4 @@ control: A[] not(User.FAIL or User2.FAIL)
 /*
 
 */
-A[] not User.FAIL
+A[] not (User.FAIL)
