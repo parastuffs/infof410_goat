@@ -24,9 +24,9 @@ boolean userIn;
 
 #define but1 A4
 #define but2 A5
-#define infra1 (analogRead(A4) > 1000)
+#define infra1 (analogRead(A4) > 550)
 int infra1Count;
-#define infra2 (analogRead(A5) > 1000)
+#define infra2 (analogRead(A5) > 500)
 int infra2Count;
 #define cardIn (analogRead(A0) > 0 && analogRead(A1) > 0)
 
@@ -68,6 +68,7 @@ void changeGateConf(int conf)
         myservo.write(pos);              // tell servo to go to position in variable 'pos' 
         delay(15);                       // waits 15ms for the servo to reach the position 
       }
+      //We could simply write myservo.write(90), but the rotation would be too quick.
       //gate 2 already closed
       break;
      case 1:
@@ -166,16 +167,26 @@ void displaySensors()
   int sensorValue2 = analogRead(A1);
   int but1Value = analogRead(but1);
   int but2Value = analogRead(but2);
+  int infra1Value = analogRead(A4);
+  int infra2Value = analogRead(A5);
   
   // print out the value you read:
-  Serial.print("A0: ");
+  /*Serial.print("A0: ");
   Serial.println(sensorValue);
   Serial.print("A1: ");
   Serial.println(sensorValue2);
   Serial.print("but 1: ");
   Serial.println(but1Value);
   Serial.print("but 2: ");
-  Serial.println(but2Value);
+  Serial.println(but2Value);*/
+  if(infra1Value > 550) {
+    Serial.print("Infra 1: ");
+    Serial.println(infra1Value);
+  }
+  if(infra2Value > 500) {
+    Serial.print("Infra 2: ");
+    Serial.println(infra2Value);
+  }
 }
   
 
@@ -183,7 +194,7 @@ void displaySensors()
 void loop() 
 { 
   
-  //displaySensors();
+  displaySensors();
 
   //infra1!
   if(infra1 && infra1Count == 0) {
