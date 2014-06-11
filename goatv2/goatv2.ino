@@ -31,8 +31,6 @@ int infra1Count;
 int infra2Count;
 #define cardIn (analogRead(A0) > 0 && analogRead(A1) > 0)
 
-int bite = 0;
-
 void setup() 
 { 
   pos = 0;//Opened
@@ -134,17 +132,14 @@ boolean processCard()
 void alarm(boolean on)
 {
   if(on) {
-    //analogWrite(buz, 500);
-    //bite = 0;
-    //digitalWrite(buz,HIGH);
     int i;
     if(buzCount < 9) {
       for(i=0; i<10; i++)
       {
         digitalWrite(buz, HIGH);
-        delay(1);//Shorter delay = higher pitch
+        delay(3);//Shorter delay = higher pitch
         digitalWrite(buz, LOW);
-        delay(1);
+        delay(3);
       }
       buzCount ++;
     }
@@ -159,25 +154,17 @@ void alarm(boolean on)
       buzCount = 0;
     }
   }
-  else {
-    bite = 1;
-    digitalWrite(buz,LOW);
-  }
-  Serial.print("buz: ");
-  Serial.println(bite);
 }
 
 void eject()
 {
   digitalWrite(ledPin, LOW);
-  //alarm(true);
-  //alarm(false);
   changeGateConf(1);
   Serial.println("GET OUT. NOW");
   while(!infra1) {
     Serial.println("GET OUT. NOW");
     alarm(true);
-    delay(150);
+    //delay(150);
   }
   while(infra1);
   alarm(false);
@@ -233,6 +220,7 @@ void loop()
   if(infra2 && gateConf == 2) {
     gateConf = 1;
     userIn = false;
+    digitalWrite(ledPin, LOW);
     changeGateConf(gateConf);
   }
   
