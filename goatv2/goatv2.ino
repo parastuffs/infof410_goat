@@ -157,7 +157,9 @@ void eject()
     alarm(true);
     delay(150);
   }
+  while(infra1);
   alarm(false);
+  
 }
   
 void displaySensors()
@@ -194,36 +196,22 @@ void displaySensors()
 void loop() 
 { 
   
-  displaySensors();
+  //displaySensors();
 
   //infra1!
-  if(infra1 && infra1Count == 0) {
-    //The problem is that we keep the button down for too long, entering multiple times
-    //in this branch. We avoid that by having a counter.
-    //The incrementation is larger thant the decrementation to leave us time to left the 
-    //finger from the button.
-    infra1Count+=2;
-    userIn = !userIn;
+  if(infra1 && gateConf == 1 && !userIn) {
+    userIn = true;
     Serial.print("userIn: ");
     Serial.println(userIn);
-    if(userIn) {
-      gateConf = 0;
-      changeGateConf(gateConf);
-      startTime = millis();
-    }
-  }
-  else {
-    infra1Count = (infra1Count<0)?0:infra1Count-1;
+    gateConf = 0;
+    changeGateConf(gateConf);
+    startTime = millis();
   }
   
-  if(infra2 && gateConf == 2 && infra2Count == 0) {
-    infra2Count+=2;
+  if(infra2 && gateConf == 2) {
     gateConf = 1;
-    userIn=false;
+    userIn = false;
     changeGateConf(gateConf);
-  }
-  else {
-    infra2Count = (infra2Count < 0)?0:infra2Count-1;
   }
   
   if(gateConf == 0 || gateConf == 2) {
@@ -246,6 +234,7 @@ void loop()
       Serial.print("current time = ");
       Serial.println(millis());
       eject();
+      userIn = false;
     }
       
   }
