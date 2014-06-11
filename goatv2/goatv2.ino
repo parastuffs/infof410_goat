@@ -19,7 +19,7 @@ const int buz = 8;
 
 int gateConf;
 unsigned long startTime;
-const int SAS_TIMER = 2000;
+const int SAS_TIMER = 5000;
 boolean userIn;
 
 #define but1 A4
@@ -29,6 +29,8 @@ int infra1Count;
 #define infra2 (analogRead(A5) > 1000)
 int infra2Count;
 #define cardIn (analogRead(A0) > 0 && analogRead(A1) > 0)
+
+int bite = 0;
 
 void setup() 
 { 
@@ -127,19 +129,30 @@ void alarm(boolean on)
 {
   if(on) {
     //analogWrite(buz, 500);
+    bite = 0;
     digitalWrite(buz,HIGH);
   }
   else {
+    bite = 1;
     digitalWrite(buz,LOW);
   }
+  Serial.print("buz: ");
+  Serial.println(bite);
 }
 
 void eject()
 {
   digitalWrite(ledPin, LOW);
-  alarm(true);
+  //alarm(true);
+  //alarm(false);
   changeGateConf(1);
   Serial.println("GET OUT. NOW");
+  while(!infra1) {
+    Serial.println("GET OUT. NOW");
+    alarm(true);
+    delay(150);
+  }
+  alarm(false);
 }
   
 void displaySensors()
@@ -166,6 +179,7 @@ void displaySensors()
 void loop() 
 { 
   
+  //displaySensors();
 
   //infra1!
   if(infra1 && infra1Count == 0) {
