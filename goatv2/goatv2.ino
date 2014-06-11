@@ -11,8 +11,8 @@ Servo myservo;  // create servo object to control a servo
 // a maximum of eight servo objects can be created
 Servo servo2; 
 
-int pos = 0;    // variable to store the servo position 
-int pos2 = 90;
+int pos;    // variable to store the servo position 
+int pos2;
 
 const int ledPin =  7;      // the number of the LED pin
 const int buz = 8;
@@ -34,11 +34,15 @@ int bite = 0;
 
 void setup() 
 { 
+  pos = 0;//Opened
+  pos2 = 90;//Closed
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object 
   servo2.attach(11);
   Serial.begin(9600);
   myservo.write(pos);
+  delay(150);
   servo2.write(pos2);
+  delay(150);
   
   // set the digital pin as output:
   pinMode(ledPin, OUTPUT);
@@ -70,8 +74,8 @@ void changeGateConf(int conf)
        Serial.println("Close gate2 and open gate1");
     
       //Open gate 1 : 0->90
-      //Close gate 2 : 90->0
-      for(pos2; pos2 < 90; pos2 += 1)  // goes from 0 degrees to 180 degrees 
+      //Close gate 2 : 180->90
+      for(pos2; pos2 > 90; pos2 -= 1)  // goes from 0 degrees to 180 degrees 
       {      // in steps of 1 degree 
         //Serial.print("Closing gate2: ");
         //Serial.println(pos2);
@@ -100,7 +104,7 @@ void changeGateConf(int conf)
         myservo.write(pos);              // tell servo to go to position in variable 'pos' 
         delay(15);                       // waits 15ms for the servo to reach the position 
       }
-      for(pos2; pos2 > 0; pos2  -= 1)  // goes from 0 degrees to 180 degrees 
+      for(pos2; pos2 < 180; pos2  += 1)  // goes from 0 degrees to 180 degrees 
       {                                  // in steps of 1 degree 
         //Serial.print("Opening gate2: ");
         //Serial.println(pos2);
