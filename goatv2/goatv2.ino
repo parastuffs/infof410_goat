@@ -16,6 +16,7 @@ int pos2;
 
 const int ledPin =  7;      // the number of the LED pin
 const int buz = 8;
+int buzCount = 0;
 
 int gateConf;
 unsigned long startTime;
@@ -134,8 +135,29 @@ void alarm(boolean on)
 {
   if(on) {
     //analogWrite(buz, 500);
-    bite = 0;
-    digitalWrite(buz,HIGH);
+    //bite = 0;
+    //digitalWrite(buz,HIGH);
+    int i;
+    if(buzCount < 9) {
+      for(i=0; i<10; i++)
+      {
+        digitalWrite(buz, HIGH);
+        delay(1);//Shorter delay = higher pitch
+        digitalWrite(buz, LOW);
+        delay(1);
+      }
+      buzCount ++;
+    }
+    else {
+      for(i=0; i<10; i++)
+      {
+        digitalWrite(buz, HIGH);
+        delay(18);
+        digitalWrite(buz, LOW);
+        delay(18);
+      }
+      buzCount = 0;
+    }
   }
   else {
     bite = 1;
