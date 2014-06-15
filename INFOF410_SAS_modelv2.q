@@ -3,12 +3,12 @@
 /*
 
 */
-A<> not(User.FAIL)
+A<> not(User.FAIL or User2.FAIL)
 
 /*
 Both users are never in the sas at the same time.
 */
-A[] not(User.in_sas and User2.in_sas)
+A[] not(User.in_sas and User2.FAIL)
 
 /*
 

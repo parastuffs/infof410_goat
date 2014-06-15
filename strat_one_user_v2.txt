@@ -1,0 +1,49 @@
+para@para-clevo:~/documents/polytech2015/MA1/INFOF410/uppaal-tiga-0.17/bin-Linux$ ./verifytga -w0 ../../infof410_goat/INFOF410_SAS_modelv2.xml
+Guessed query file: ../../infof410_goat/INFOF410_SAS_modelv2.q
+Options for the verification:
+  Generating no trace
+  Search order is breadth first (UPPAAL), automatic (TIGA)
+  Using conservative space optimisation
+  Seed is 1402793190
+  State space representation uses minimal constraint systems
+
+Verifying property 1 at line 6
+ -- Property is satisfied.
+
+Verifying property 2 at line 11
+ -- Property is NOT satisfied.
+
+Verifying property 3 at line 16
+ -- Property is NOT satisfied.
+
+Verifying property 4 at line 21
+ -- Property is satisfied.
+
+Verifying property 5 at line 28
+ -- Property is satisfied.
+$v_gameInfoPlayInitial state:
+( User.before_sas Sas.idle ) gateConf=1 
+(timeInSas==User.x && User.x==Sas.x && Sas.x==0)
+
+Strategy to avoid losing:
+
+State: ( User.after_sas Sas.idle ) gateConf=1 
+While you are in	true, wait.
+
+State: ( User.before_sas Sas.idle ) gateConf=1 
+While you are in	true, wait.
+
+State: ( User.in_sas Sas.handling_user ) gateConf=2 
+While you are in	(timeInSas<=10), wait.
+
+State: ( User.in_sas Sas.process_card ) gateConf=0 
+When you are in (timeInSas<=10), take transition Sas.process_card->Sas.handling_user { 1, tau, gateConf := 2 }
+
+State: ( User.in_sas Sas.process_card ) gateConf=2 
+When you are in (timeInSas<=10), take transition Sas.process_card->Sas.handling_user { 1, tau, gateConf := 2 }
+
+State: ( User.in_sas Sas.handling_user ) gateConf=0 
+While you are in	(timeInSas<=10), wait.
+
+Verifying property 6 at line 33
+ -- Property is NOT satisfied.
