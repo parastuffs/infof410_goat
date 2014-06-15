@@ -14,6 +14,9 @@ int pos2 = 90;
 
 const int ledPin =  7;      // the number of the LED pin
 
+#define but1 A4
+#define but2 A5
+
 void setup() 
 { 
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object 
@@ -32,11 +35,18 @@ void loop()
   // read the input on analog pin 0:
   int sensorValue = analogRead(A0);
   int sensorValue2 = analogRead(A1);
+  int but1Value = analogRead(but1);
+  int but2Value = analogRead(but2);
+  
   // print out the value you read:
   Serial.print("A0: ");
   Serial.println(sensorValue);
   Serial.print("A1: ");
   Serial.println(sensorValue2);
+  Serial.print("but 1: ");
+  Serial.println(but1Value);
+  Serial.print("but 2: ");
+  Serial.println(but2Value);
 
   if(sensorValue>200 && sensorValue<400 && sensorValue2>200 && sensorValue2<400) { 
     //Close gate 1: 90->0
