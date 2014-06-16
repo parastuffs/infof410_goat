@@ -22,6 +22,7 @@ int gateConf;
 unsigned long startTime;
 const int SAS_TIMER = 5000;
 boolean userIn;
+boolean userLeaving;//User is leaving, in infra1
 
 #define but1 A4
 #define but2 A5
@@ -49,6 +50,7 @@ void setup()
   
   gateConf = 1;
   userIn = false;
+  userLeaving = false;
   infra1Count = 0;
   infra2Count = 0;
 } 
@@ -205,7 +207,7 @@ void displaySensors()
 void loop() 
 { 
   
-  //displaySensors();
+  displaySensors();
 
   //infra1!
   if(infra1 && gateConf == 1 && !userIn) {
@@ -224,8 +226,18 @@ void loop()
     changeGateConf(gateConf);
   }
   
-  if(gateConf == 0 || gateConf == 2) {
+  if(gateConf == 0 || gateConf == 2 || (gateConf == 1 && userLeaving)) {
     if((millis() - startTime) <= SAS_TIMER) {
+      if(infra1) {
+        //User is leaving, but the timer is still running. We don't  want him to sta
+        userLeaving = 1;
+        gateConf = 1;
+        changeGateConf(gateConf);
+      }
+      else if(!infra1) {
+        //User left by gate 1.
+        userLeaving = false;
+      }
       if(cardIn) {
         if(processCard()) {
           digitalWrite(ledPin, HIGH);
@@ -245,6 +257,7 @@ void loop()
       Serial.println(millis());
       eject();
       userIn = false;
+      userLeaving = false;
     }
       
   }
