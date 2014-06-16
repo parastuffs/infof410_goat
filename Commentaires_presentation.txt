@@ -1,0 +1,11 @@
+*Stratégie de contrôle avec Until. Ben oui, parce qu'une stratégie de victoire serait de ne jamais ouvrir la première porte.
+*Faire meilleur lien entre différents cas physiques et modèles.
+*Modélisation de la carte (au moins en discuter dans le rapport).
+*Rapport : Expliquer à haut niveau ce que le projet devrait faire -> expliquer propriétés.
+*Faiblesses : 
+	*Un user pourrait entrer par la porte 2 quand elle s'ouvre.
+	*Quand l'alarme se déclenche, un nouvel utilisateur peut entrer dans le sas par la porte 1 et
+		stoper l'alarme. Au final, on peut se retrouver avec un nombre pair de users dans le sas.
+		->On pourrait supposer que le sas a la place pour une seule personne.
+		->Il faudrait pouvoir voir le sens de passage des utilisateurs dans la porte 1
+			->Nécessite un second capteur infrarouge.
