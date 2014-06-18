@@ -1,5 +1,5 @@
 *Stratégie de contrôle avec Until. Ben oui, parce qu'une stratégie de victoire serait de ne jamais ouvrir la première porte.
-*Faire meilleur lien entre différents cas physiques et modèles.
+*Faire meilleur lien entre différents cas physiques et modèles. [DONE?]
 *Modélisation de la carte (au moins en discuter dans le rapport).
 *Rapport : Expliquer à haut niveau ce que le projet devrait faire -> expliquer propriétés.
 *Faiblesses : 
