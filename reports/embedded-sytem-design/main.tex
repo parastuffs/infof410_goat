@@ -152,6 +152,17 @@ The user must be able to escape the sas at any time. This is done with the infra
 
 The figures~\ref{userModel} and \ref{sasModel} represent these and the listings~\ref{globalDecl}, \ref{userDecl} and \ref{sasDecl} are their declarations.
 
+A Typical run on the user side is as follows: The user begins in \texttt{before\_sas} and proceed into the sas by triggering the \texttt{infra1} signal if the first door is opened. He enters either with a valid or invalid card.
+Once in the sas, he can present his card by triggering the \texttt{cardIn} signal.
+At any moment, if the second door is opened, he can leave through it, or leave through the first door by triggering the signal \texttt{infra1}.
+If the global clock \texttt{timeInSas} exceeds \texttt{SAS\_TIMER}, he can go to the \texttt{FAIL} state, and when receiving the \texttt{eject} signal, he will leave the sas.
+
+A typical run on the sas side is as follows: From the \texttt{idle} state, uppon \texttt{infra1} signal, the sas resets the clock \texttt{timeInSas} and closes the first door. 
+The sas is then handling a user. 
+When a detects that a card is entered, he either opens the second door if the card is correct but keep both closed if the card is invalid.
+If he receives the signal \texttt{infra1}, it means that user is standing in front of the first sensor and wants to leave, hence the sas opens the first door.
+Whenever the \texttt{timeInSas} clock reaches the \texttt{SAS\_TIMER}, the sas immediatly triggers the \texttt{eject} signal, willing to make the user leave the bloody sas.
+
 
 \begin{figure}[!h]
 	\centering
@@ -237,15 +248,23 @@ clock x;
     This liberty is represented by the controllable edge between \texttt{User.in\_sas} and \texttt{user.FAIL}.
 \end{description}
 
-We may also want to verify that if the user enters the sas with an invald card, he will not make it to the other side, but if he has a valid card, he may.
+We may also want to verify that if the user enters the sas with an invalid card, he will not make it to the other side, but if he has a valid card, he may.
+This may be expressed as follows:
+\begin{small}
+\begin{verbatim}
+	A[] ( ( (userCard == 0 && User.in_sas) imply A<> User.before_sas ) 
+	&& ( (userCard == 1 && User.in_sas) imply E<> User.after_sas ) )
+\end{verbatim}
+\end{small}
 
-This may be expressed as follows: \verb|A[] ( (userCard == 0 && User.in_sas) imply 
+Sadly, the syntax analyzer of UppAal does not accept a quantifier after the keyword \texttt{imply} and the above condition is not verifiable through its tools.\\
 
-Sadly, the syntax analyzer of UppAal does not accept a quantifier after the keyword \texttt{imply}.
-
+Finally, one could think that a suitable strategy for the sas to avoid the user to enter the \texttt{FAIL} state would simply be to never open the first door and let users in.
+However, the model construction is such that the first door is always open when the sas is not occupied.
+The only way the close the first door is a user to enter the sas by triggering the \texttt{infra1} signal.
 
 \subsection{Generated strategy}
-The following strategy has been generated using a system with only one user for readability pruposes.
+The following strategy has been generated using a system with only one user for readability purposes.
 
 \begin{verbatim}
 Verifying property 5 at line 28
@@ -277,7 +296,8 @@ State: ( User.in_sas Sas.handling_user ) gateConf=0
 While you are in	(timeInSas<=10), wait.
 \end{verbatim}
 
-\newpage
+The implementation code is presented in appendix~\ref{ap:code}. Each of those states were implemented using \texttt{if-then-else} statements decorated with all kind of computation that were hidden behind abstractions in the models.
+
 \section{Physical Implementation}
 \subsection{Parts list}
 For our prototype, we used:
@@ -329,16 +349,9 @@ The sas was build using Lego bricks, and the doors are in carton and connected t
 
 %On figure \ref{inside}, the reader can view the inside of the sas. Here the first door is open, and the user is waiting.
 
-%\begin{figure}[!h]
-%	\centering
-%    \includegraphics[scale=0.1]{photo.JPG}
-%    \caption{Human trials. Take 1. Entering the twilight zone.}
-%    \label{inside}
-%\end{figure}
-
-
-\newpage
+%%%%%%%%%%%%%%%%%%%%%%
 \section{Pictures of the project}
+%%%%%%%%%%%%%%%%%%%%%
 The final prototype can be seen on the following figure \ref{finalPrototype}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.18]{photo1}
@@ -347,19 +360,10 @@ The final prototype can be seen on the following figure \ref{finalPrototype}.
 \end{figure}
 
 \section{Future work}
-%*Faiblesses : 
-%	*Un user pourrait entrer par la porte 2 quand elle s'ouvre.
-%	*Quand l'alarme se déclenche, un nouvel utilisateur peut entrer dans le sas par la porte 1 et stoper l'alarme. Au final, on peut se retrouver avec un nombre pair de users dans le sas.
-%		->On pourrait supposer que le sas a la place pour une seule personne.
-%		->Il faudrait pouvoir voir le sens de passage des utilisateurs dans la porte 1
-%			->Nécessite un second capteur infrarouge.
-
-%Expliquer ce qu'on pourrait faire pour améliorer notre système.
-
 Since we only use one infrared sensor at each door, we do not know the direction of the passing user. This causes problems in several situations:
 
 \begin{itemize}
-	\item If the user stays too long in the sas and the alarm activate, another user can enter in the sas. The alarm then stops. Now a third user can enter, and the front door closes. If one of the 2 users already in the sas puts something in front of the sensor, the front dool closes as well. Thus any number of people enter the sas and go to the other side with one valid card.
+	\item If the user stays too long in the sas and the alarm activate, another user can enter in the sas. The alarm then stops. Now a third user can enter, and the front door closes. If one of the 2 users already in the sas puts something in front of the sensor, the front door closes as well. Thus any number of people enter the sas and go to the other side with one valid card.
     
     \item The same infrared problem occurs on the other side. If one user enters the sas from the back door when it is open, after the user has shown a valid card, the sas closes the second door. There are then 2 users in the sas, and the front door opens again, letting the second user escape.
 	
@@ -367,29 +371,17 @@ Since we only use one infrared sensor at each door, we do not know the direction
 
 These 2 problems could be resolved by using 2 more sensors to detect the direction of the passing user. Anoher solution could be to consider that the sas has only room for one person only.
 
+%%%%%%%%%%%%%
 \section{Conclusion}
+%%%%%%%%%%%%%
 This project has enabled us to understand how we design embedded systems, by using specific tools to verify that a system respect some given proprieties. It was a rich experience to do the different parts of a project: the design of the model, the production of the code from the generated strategies, and the physical implementation so that we can see that our model really works in the real world.
-
-%%% TODO
-%*Do the link between the strategies and the code 
-%*Stratégie de contrôle avec Until. Ben oui, parce qu'une stratégie de victoire serait de ne jamais ouvrir la première porte.
-%	>Mais non, c'est débile, on commence à gateConf == 1. De toute façon, quoi qu'on fasse, ce connard d'environnement pourrait
-%		tout simplement décider de ne jamais passer devant l'infra1 et donc la gateConf ne changerait jamais.
-%		Donc on le laisse comme et c'est bon, hein.
-%*Faire meilleur lien entre différents cas physiques et modèles.
-%*Modélisation de la carte (au moins en discuter dans le rapport). Process card (uppaal tiga)
-%	>Les limitations du programme ne permettent pas de faire ce qu'on veut.
-%		Je voudrais écrire A[] (userCard == 0 imply ( not(User.after_sas) U user.before_sas) )
-%		i.e. dans tous les états, si userCard == 0, on ne peut pas atteindre after_sas et on doit retourner dans before_sas.
-%*Rapport : Expliquer à haut niveau ce que le projet devrait faire -> expliquer propriétés.
-
 
 
 \newpage
 
 \appendix
 
-\section{Arduino Code}
+\section{Arduino Code}\label{ap:code}
 As mentionned above, the following code has been produced based on the generated strategies.\\
 
 \lstset{language=c++}

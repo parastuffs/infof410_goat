@@ -1,13 +1,13 @@
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}
 \contentsline {section}{\numberline {2}The Model}{3}{section.2}
-\contentsline {section}{\numberline {3}The Strategy}{3}{section.3}
-\contentsline {subsection}{\numberline {3.1}Winning conditions}{3}{subsection.3.1}
+\contentsline {section}{\numberline {3}The Strategy}{4}{section.3}
+\contentsline {subsection}{\numberline {3.1}Winning conditions}{4}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Generated strategy}{5}{subsection.3.2}
 \contentsline {section}{\numberline {4}Physical Implementation}{6}{section.4}
 \contentsline {subsection}{\numberline {4.1}Parts list}{6}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Electronic schematic}{6}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Electronic circuit}{7}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}The structure}{7}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.3}Electronic circuit}{6}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}The structure}{8}{subsection.4.4}
 \contentsline {section}{\numberline {5}Pictures of the project}{8}{section.5}
 \contentsline {section}{\numberline {6}Future work}{8}{section.6}
 \contentsline {section}{\numberline {7}Conclusion}{8}{section.7}
