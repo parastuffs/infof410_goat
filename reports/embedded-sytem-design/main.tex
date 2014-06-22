@@ -159,8 +159,8 @@ If the global clock \texttt{timeInSas} exceeds \texttt{SAS\_TIMER}, he can go to
 
 A typical run on the sas side is as follows: From the \texttt{idle} state, uppon \texttt{infra1} signal, the sas resets the clock \texttt{timeInSas} and closes the first door. 
 The sas is then handling a user. 
-When a detects that a card is entered, he either opens the second door if the card is correct but keep both closed if the card is invalid.
-If he receives the signal \texttt{infra1}, it means that user is standing in front of the first sensor and wants to leave, hence the sas opens the first door.
+When a detects that a card is entered, it either opens the second door if the card is correct but keep both closed if the card is invalid.
+If it receives the signal \texttt{infra1}, it means that the user is standing in front of the first sensor and wants to leave, hence the sas opens the first door.
 Whenever the \texttt{timeInSas} clock reaches the \texttt{SAS\_TIMER}, the sas immediatly triggers the \texttt{eject} signal, willing to make the user leave the bloody sas.
 
 
@@ -261,7 +261,7 @@ Sadly, the syntax analyzer of UppAal does not accept a quantifier after the keyw
 
 Finally, one could think that a suitable strategy for the sas to avoid the user to enter the \texttt{FAIL} state would simply be to never open the first door and let users in.
 However, the model construction is such that the first door is always open when the sas is not occupied.
-The only way the close the first door is a user to enter the sas by triggering the \texttt{infra1} signal.
+The only way to close the first door is for a user to enter the sas by triggering the \texttt{infra1} signal.
 
 \subsection{Generated strategy}
 The following strategy has been generated using a system with only one user for readability purposes.
