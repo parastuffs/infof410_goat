@@ -78,11 +78,11 @@ In the present project, we want to improve the behavior of the sas by adding a q
 %%%%%%%%%%%
 \section{Improvement to the models}
 %%%%%%%%%%%
-The larger part of the models where not modified.
+The larger part of the models was not modified.
 As we want to control the flow of users entering the sas, the new part involves the transition to and from \texttt{User.in\_sas}.
 
 \begin{lstlisting}[caption=Global system declarations., label=lst:globalDecl]
-chan infra1, infra2, cardIn, eject
+chan infra1, infra2, cardIn, eject;
 chan req;//Request channel
 clock timeInSas;
 const int SAS_TIMER = 10;
@@ -115,7 +115,7 @@ const int userID = 1;
 
 \subsection{Sas}
 The first modification is the addition of new self-transitions on \texttt{idle} and \texttt{handling\_user} states for the reception of the signal \texttt{req}.
-When receiving the signal, the sas receives the id the corresponding user and adds it to the queue using the \texttt{addInQueue(int)} function.
+When receiving the signal, the sas receives the id of the corresponding user and appends it to the queue using the \texttt{addInQueue(int)} function.
 
 When the user enters the sas, the sas model shifts the queue using \texttt{shiftQueue()} so that the next user in line is ready to enter as soon as the sas is available.
 
@@ -151,7 +151,7 @@ In a sense, we did enforce some sort of strict sequencing, but only to ensure a 
 It is simply the modelisation of a real-life problem: poeple enter a queue to access a ressource that can only be used by one person for a certain amount of time.
 
 If we want to take this project even one step further, we could make the sas two-way, instead of one.
-In this improvement, both doors could be closed in idle mode and users could request its accessed from the first or the second door.
+In this improvement, both doors could be closed in idle mode and users could request its access from the first or the second door.
 The modelisation would not differ that much, since we can use the same queue to store the requests, and the distribution mechanism of tokens would be sensibly the same.
 
 \newpage

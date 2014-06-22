@@ -8,7 +8,6 @@
 \contentsline {subsection}{\numberline {4.2}Electronic schematic}{6}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}Electronic circuit}{7}{subsection.4.3}
 \contentsline {subsection}{\numberline {4.4}The structure}{7}{subsection.4.4}
-\contentsline {section}{\numberline {5}Pictures of the project}{8}{section.5}
-\contentsline {section}{\numberline {6}Future work}{8}{section.6}
-\contentsline {section}{\numberline {7}Conclusion}{8}{section.7}
+\contentsline {section}{\numberline {5}Future work}{8}{section.5}
+\contentsline {section}{\numberline {6}Conclusion}{8}{section.6}
 \contentsline {section}{\numberline {A}Arduino Code}{9}{appendix.A}

@@ -131,7 +131,7 @@ footnotesep=50mm
 \newpage
 %%%%%%%% Introduction %%%%%%%%%%
 \section{Introduction}
-For the course "Embedded Systems Design", we were asked to implement a system inspired from subject in the course. We chose to use UppAal Tiga to design and create a strategy for a sas controlled by an Arduino Uno. This sas is composed of 2 doors actioned by servomotors. Infrared sensors are used to detect the person entering the sas. The opening of the second door of the sas is triggered by the scan of a valid card (rectangle with holes). Once someone is inside the sas, a timer is triggered to prevent the person to stay indefinitely inside. An alarm is activated once the timer is out.
+For the course "Embedded Systems Design", we were asked to implement a system inspired from a subject in the course. We chose to use UppAal Tiga to design and create a strategy for a sas controlled by an Arduino Uno. This sas is composed of 2 doors actioned by servomotors. Infrared sensors are used to detect the person entering the sas. The opening of the second door of the sas is triggered by the scan of a valid card (rectangle with holes). Once someone is inside the sas, a timer is triggered to prevent the person to stay indefinitely inside. An alarm is activated once the timer is out.
 
 %%%%%%%% The Model %%%%%%%%%%%%
 \section{The Model}
@@ -332,10 +332,10 @@ The 2 resistors R4 and R5 with the photoresistors R6 and R7 form respectively a 
 
 If the user stays too long in the sas, the arduino can also trigger an alarm with the buzzer.
 
-The 2 infrared proximity sensors IR1 and IR2 are there to detect if an object/person has entered or leaved the sas, they are respectively connected to the analog input pins A4 and A5. Based on the value measured, the microcontroller will activate one of the servo motors to close one of the gates, or to stop the buzzer.
+The two infrared proximity sensors IR1 and IR2 are there to detect if an object/person has entered or leaved the sas, they are respectively connected to the analog input pins A4 and A5. Based on the value measured, the microcontroller will activate one of the servo motors to close one of the gates, or to stop the buzzer.
 
 \subsection{Electronic circuit}
-On the real circuit, we used 3 breadboards because of the jump wires length that were too short. The 2 left protoboards on the figure \ref{circuit} are perpendicular to each other, in order to the card to be able to push on the lever of the micro switch, and to the photoresistors to be perpendicular to the card.
+On the real circuit, we used three breadboards because of the jump wires length that were too short. The two leftern protoboards on the figure \ref{circuit} are perpendicular to each other, in order for the card to be able to push on the lever of the micro switch, and for the photoresistors to be perpendicular to the card.
 
 \begin{figure}[!h]
 	\centering
@@ -349,10 +349,6 @@ The sas was build using Lego bricks, and the doors are in carton and connected t
 
 %On figure \ref{inside}, the reader can view the inside of the sas. Here the first door is open, and the user is waiting.
 
-%%%%%%%%%%%%%%%%%%%%%%
-\section{Pictures of the project}
-%%%%%%%%%%%%%%%%%%%%%
-The final prototype can be seen on the following figure \ref{finalPrototype}.
 \begin{figure}[!h]
 	\includegraphics[scale=0.18]{photo1}
     \caption{Final prototype}
@@ -369,12 +365,12 @@ Since we only use one infrared sensor at each door, we do not know the direction
 	
 \end{itemize}
 
-These 2 problems could be resolved by using 2 more sensors to detect the direction of the passing user. Anoher solution could be to consider that the sas has only room for one person only.
+These two problems could be resolved by using 2 more sensors to detect the direction of the passing user. Anoher solution could be to consider that the sas has only room for one person only.
 
 %%%%%%%%%%%%%
 \section{Conclusion}
 %%%%%%%%%%%%%
-This project has enabled us to understand how we design embedded systems, by using specific tools to verify that a system respect some given proprieties. It was a rich experience to do the different parts of a project: the design of the model, the production of the code from the generated strategies, and the physical implementation so that we can see that our model really works in the real world.
+This project has given us the opportunity to understand how we design embedded systems, by using specific tools to verify that a system respect some given proprieties. It was a rich experience to do the different parts of a project: the design of the model, the production of the code from the generated strategies, and the physical implementation so that we can see that our model really works in the real world.
 
 
 \newpage
