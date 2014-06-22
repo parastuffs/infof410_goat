@@ -23,7 +23,7 @@ E<> User.after_sas
 /*
 
 */
-Sas.init_sas --> Sas.idle
+User.want_in --> User.in_sas
 
 /*
 Here, we play in a controller game. We play the controller while Tiga plays the environment.

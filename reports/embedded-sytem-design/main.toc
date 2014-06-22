@@ -6,8 +6,8 @@
 \contentsline {section}{\numberline {4}Physical Implementation}{6}{section.4}
 \contentsline {subsection}{\numberline {4.1}Parts list}{6}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Electronic schematic}{6}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Electronic circuit}{6}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}The structure}{8}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.3}Electronic circuit}{7}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}The structure}{7}{subsection.4.4}
 \contentsline {section}{\numberline {5}Pictures of the project}{8}{section.5}
 \contentsline {section}{\numberline {6}Future work}{8}{section.6}
 \contentsline {section}{\numberline {7}Conclusion}{8}{section.7}
