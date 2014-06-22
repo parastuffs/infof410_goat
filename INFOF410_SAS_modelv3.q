@@ -1,10 +1,9 @@
 //This file was generated from (Academic) UPPAAL 4.1.4 (rev. 5535), March 2014
 
 /*
-Si l'utilisateur rentre avec une mauvaise carte, il n'acc\u00e8dera jamais \u00e0 la zone apr\u00e8s le sas until il ressorte du sas.
-Autre fa\u00e7on de le v\u00e9rifier : si l'utilisateur rentre avec une mauvaise carte, il se retrouvera devant le sas dans le futur.
+For all executions, if the 
 */
-//NO_QUERY
+A[] ((userCard == 0) imply E<> User.after_sas)
 
 /*
 

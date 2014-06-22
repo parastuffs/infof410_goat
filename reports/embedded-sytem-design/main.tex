@@ -49,7 +49,7 @@ footnotesep=50mm
 \usepackage{color}
 \usepackage{amssymb}
 
-\usepackage[boxed]{algorithm2e}
+%\usepackage[boxed]{algorithm2e}
 \usepackage{array}
 \usepackage{hyperref}
 \usepackage{lscape}
@@ -115,28 +115,7 @@ footnotesep=50mm
 \definecolor{colIdentifier}{rgb}{0,0,0}  % couleurs des mots à identifier
 \definecolor{colComments}{rgb}{0,0.6,0}  % couleurs des commentaires
 \definecolor{colString}{rgb}{0.6,0.1,0.1}
-\lstset{%configuration de listings
-float=hbp,%
-basicstyle=\ttfamily\small, %
-identifierstyle=\color{colIdentifier}, %
-keywordstyle=\color{colKeys}, %
-stringstyle=\color{colString}, %
-commentstyle=\color{colComments}, %
-columns=flexible, %
-tabsize=2, %
-frame=trBL, %
-frameround=tttt, %
-extendedchars=true, %
-showspaces=false, %
-showstringspaces=false, %
-numbers=left, %
-numberstyle=\tiny, %
-breaklines=true, %
-breakautoindent=true, %
-captionpos=b,%
-xrightmargin=-0.6cm, %
-xleftmargin=-0.6cm
-}
+%\lstset{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -150,25 +129,28 @@ xleftmargin=-0.6cm
 
 \tableofcontents
 \newpage
-
+%%%%%%%% Introduction %%%%%%%%%%
 \section{Introduction}
 For the course "Embedded Systems Design", we were asked to implement a system inspired from subject in the course. We chose to use UppAal Tiga to design and create a strategy for a sas controlled by an Arduino Uno. This sas is composed of 2 doors actioned by servomotors. Infrared sensors are used to detect the person entering the sas. The opening of the second door of the sas is triggered by the scan of a valid card (rectangle with holes). Once someone is inside the sas, a timer is triggered to prevent the person to stay indefinitely inside. An alarm is activated once the timer is out.
 
+%%%%%%%% The Model %%%%%%%%%%%%
 \section{The Model}
 
 In this section we will describe the physical properties that the system must satisfy, and make the link with the model.\\
 
 First we want the system to always have at least one door closed. This is ensured by the 3 available configurations in the model: \emph{01} meaning door 1 open and door 2 closed, \emph{10} meaning the opposite, and \emph{00} meaning no door open.\\
 
-Secondly, we want the back door (door 2) to open only if the user present one valid card having 2 holes in it. \todo{Quentin has to make the corresponding model. Gogogogo!}\\
+Secondly, we want the back door (door 2) to open only if the user present one valid card having 2 holes in it.\\
 
-The user also has to be ejected after some time if he does not show a valid card. This would prevent the user from staying indefinitely in the sas, blocking the other users. This is done by the timer in the model for the sas and the eject message. \todo{Mise à jour modèle pour le sas avec le timer}\\
+The user also has to be ejected after some time if he does not show a valid card. This would prevent the user from staying indefinitely in the sas, blocking the other users. This is done by the timer in the model for the sas and the eject message. \\
 
 The sas must detect the insertion of a card, even if it is not valid. This is modeled with the cardIn message in the UppAal Tiga systems.\\
 
 An infrared sensor system has to detect the entry and exit of the user in order to react with the appropriate door configuration, and (de)activate the alarm. In the model, the infrared sensors are modeled with the infra1 \& infra2 signal.
 
 The user must be able to escape the sas at any time. This is done with the infra1 sensor. If the user puts himself in front of the sensor, the front door opens to let him out.
+
+The figures~\ref{userModel} and \ref{sasModel} represent these and the listings~\ref{globalDecl}, \ref{userDecl} and \ref{sasDecl} are their declarations.
 
 
 \begin{figure}[!h]
@@ -185,17 +167,55 @@ The user must be able to escape the sas at any time. This is done with the infra
     \label{sasModel}
 \end{figure}
 
+\lstset{language=c++}
+\lstset{commentstyle=\color{colComments}\textit,
+%float=hbp,%
+basicstyle=\ttfamily\small, %
+identifierstyle=\color{colIdentifier}, %
+keywordstyle=\color{colKeys}, %
+stringstyle=\color{colString}, %
+commentstyle=\color{colComments}, %
+columns=flexible, %
+tabsize=2, %
+%frame=trBL, %
+%frameround=tttt, %
+extendedchars=true, %
+showspaces=false, %
+showstringspaces=false, %
+numbers=left, %
+numberstyle=\tiny, %
+breaklines=true, %
+breakautoindent=true, %
+captionpos=b,%
+%xrightmargin=-0.6cm, %
+%xleftmargin=-0.6cm}
+}
+\begin{lstlisting}[caption=Global declarations of the systems., label=globalDecl]
+chan infra1, infra2, cardIn, eject;
+clock timeInSas;
+const int SAS_TIMER = 10;
+int gateConf = 1;
+int userCard;
+\end{lstlisting}
+\begin{lstlisting}[caption=Declarations of the user model., label=userDecl]
+clock x;
+\end{lstlisting}
+\begin{lstlisting}[caption=Declarations of the sas model., label=sasDecl]
+clock x;
+\end{lstlisting}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Strategy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Winning conditions}
 
 \begin{description}
-	\item[\texttt{A<> not(User.FAIL)}] ~\\
-    	The user will never end up in FAIL.
+	%\item[\texttt{A<> not(User.FAIL)}] ~\\
+    %	The user will never end up in FAIL.
         
     \item[\texttt{A[] not(User.in\_sas and User2.in\_sas)}] ~\\     
     Both users are never in the sas at the same time.
+    Both models are exactly the same. The managment of a request token and a users queue will be implemented for the Formal Verification project.
     
     %\item[\texttt{A[] not deadlock}] ~\\
     
@@ -210,11 +230,19 @@ The user must be able to escape the sas at any time. This is done with the infra
     \item[\texttt{control: A[] not(User.FAIL or User2.FAIL)}] ~\\
     Here, we play in a controller game.
     Having the controller collaboration, when the system is given the opportunity to either win or lose, well, it chooses to win.
+    This condition is there to enforce the limited time in sas property.
     
     Please bear in mind here that we suppose that the \texttt{eject!} signal sent by the \texttt{Sas} has force of law.
     Hence, we know that when the controller is trying to comply with a winning condition, our physical system will be able to overcome the quite strong hypothesis made by the simulation tool stating that the environnement is always able to act faster than the controller.
     This liberty is represented by the controllable edge between \texttt{User.in\_sas} and \texttt{user.FAIL}.
 \end{description}
+
+We may also want to verify that if the user enters the sas with an invald card, he will not make it to the other side, but if he has a valid card, he may.
+
+This may be expressed as follows: \verb|A[] ( (userCard == 0 && User.in_sas) imply 
+
+Sadly, the syntax analyzer of UppAal does not accept a quantifier after the keyword \texttt{imply}.
+
 
 \subsection{Generated strategy}
 The following strategy has been generated using a system with only one user for readability pruposes.
@@ -345,8 +373,14 @@ This project has enabled us to understand how we design embedded systems, by usi
 %%% TODO
 %*Do the link between the strategies and the code 
 %*Stratégie de contrôle avec Until. Ben oui, parce qu'une stratégie de victoire serait de ne jamais ouvrir la première porte.
+%	>Mais non, c'est débile, on commence à gateConf == 1. De toute façon, quoi qu'on fasse, ce connard d'environnement pourrait
+%		tout simplement décider de ne jamais passer devant l'infra1 et donc la gateConf ne changerait jamais.
+%		Donc on le laisse comme et c'est bon, hein.
 %*Faire meilleur lien entre différents cas physiques et modèles.
 %*Modélisation de la carte (au moins en discuter dans le rapport). Process card (uppaal tiga)
+%	>Les limitations du programme ne permettent pas de faire ce qu'on veut.
+%		Je voudrais écrire A[] (userCard == 0 imply ( not(User.after_sas) U user.before_sas) )
+%		i.e. dans tous les états, si userCard == 0, on ne peut pas atteindre after_sas et on doit retourner dans before_sas.
 %*Rapport : Expliquer à haut niveau ce que le projet devrait faire -> expliquer propriétés.
 
 
@@ -355,11 +389,30 @@ This project has enabled us to understand how we design embedded systems, by usi
 
 \appendix
 
-\section{Code}
+\section{Arduino Code}
 As mentionned above, the following code has been produced based on the generated strategies.\\
 
 \lstset{language=c++}
-\lstset{commentstyle=\color{colComments}\textit}
+\lstset{commentstyle=\color{colComments}\textit,
+float=hbp,%
+basicstyle=\ttfamily\small, %
+identifierstyle=\color{colIdentifier}, %
+keywordstyle=\color{colKeys}, %
+stringstyle=\color{colString}, %
+columns=flexible, %
+tabsize=2, %
+frame=trBL, %
+frameround=tttt, %
+extendedchars=true, %
+showspaces=false, %
+showstringspaces=false, %
+numbers=left, %
+numberstyle=\tiny, %
+breaklines=true, %
+breakautoindent=true, %
+captionpos=b,%
+xrightmargin=-0.6cm, %
+xleftmargin=-0.6cm}
 \begin{lstlisting}
 #include <Servo.h> 
 
